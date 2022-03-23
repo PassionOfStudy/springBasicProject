@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>상세페이지</title>
+    <!-- BootStrap 5 -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+            crossorigin="anonymous"
+    />
+    <!-- Bulma -->
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"
+    />
+    <!-- jQuery import  -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
+    <script>
+        $('document').ready(function() {
+            // url 파라미터의 값으로 id값을 가져온다.
+            let url = document.location.href;
+            let id = getParameter(url);
+            // 기존 내용 삭제
+            $('#contents-box').empty();
+
+            // 수신한 id값을 가지고 게시판 상세내용을 읽어온다
+            $.ajax({
+                type: 'POST',
+                url: '/api/detail',
+                contentType: "application/json",
+                data: JSON.stringify(id),
+                success: function(response) {
+                    console.log(response);
+                    let title = response.title;
+                    let author = response.author;
+                    let contents = response.contents;
+                    let date = response.createdAt;
+                    let temp_html = `<div class="detail__header">
+                                        <div class="detail__header__title">
+                                            제목 : ${title}
+                                        </div>
+                                        <div class="detail__header__date">
+                                            작성날짜 | ${date}
+                                        </div>
+                                    </div>
+                                    <div class="detail__author">
+                                        작성자 : ${author}
+                                    </div>
+                                    <div class="detail__contents">
+                                        ${contents}
+                                    </div>`;
+                    $('#contents-box').append(temp_html);
+                }
+            })
+        })
+        // 전달된 url에서 파라미터를 뽑아내는 함수
+        function getParameter(url) {
+            let query = window.location.search;
+            let param = new URLSearchParams(query);
+            let id = param.get('id');
+            return id;
+        }
+    </script>
+</head>
+<body>
+<header>
+    <section class="hero is-info">
+        <div class="hero-body">
+            <p class="title">게시판 전체 목록 조회 및 등록 페이지</p>
+            <p class="subtitle">게시판 도전~~</p>
+        </div>
+    </section>
+</header>
+<div class="btn__active">
+    <button onclick="location.href='/'" type="button" class="btn btn-success">
+        게시판 홈
+    </button>
+</div>
+<div id="contents-box" class="wrap">
+    <div class="detail__header">
+        <div class="detail__header__title">
+            제목 : title
+        </div>
+        <div class="detail__header__date">
+            작성날짜 | 2022.03.15
+        </div>
+    </div>
+    <div class="detail__author">
+        작성자 : author
+    </div>
+    <div class="detail__contents">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad atque corporis debitis eaque eum facere harum ipsa iste laboriosam laborum, molestias nam nesciunt perferendis rerum sed temporibus totam ullam vero.
+    </div>
+</div>
+</body>
+</html>

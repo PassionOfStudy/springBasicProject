@@ -19,6 +19,7 @@
         password: $('#password').val(),
         passwordCheck: $('#passwordCheck').val()
       };
+
       $.ajax({
         type: "POST",
         url: "/api/signup",
@@ -27,7 +28,7 @@
         success: function (response) {
           console.log(response)
           alert(response);
-          if(response == "회원가입을 축하합니다.") {
+          if(response === "회원가입을 축하합니다!") {
             window.location.assign('/');
           }
         }
@@ -39,7 +40,7 @@
 <div id="login-form">
   <div id="login-title">Sign up Hanghae99</div>
 
-  <form action="/user/signup" method="post">
+<!--  <form action="/user/signup" method="post">-->
     <div class="login-id-label">닉네임</div>
     <input id="nickname" type="text" name="username" placeholder="Username" class="login-input-box">
 
@@ -54,7 +55,7 @@
 <!--      <input id="admin-token" type="password" name="adminToken" placeholder="관리자 암호" class="login-input-box" style="display:none">-->
 <!--    </div>-->
     <button id="login-id-submit" onclick="signup()">회원 가입</button>
-  </form>
+<!--  </form>-->
 </div>
 </body>
 </html>

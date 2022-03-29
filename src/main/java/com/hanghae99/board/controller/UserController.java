@@ -56,4 +56,6 @@ public class UserController {
             return "회원가입을 축하합니다!";
         }
     }
+
+
 }

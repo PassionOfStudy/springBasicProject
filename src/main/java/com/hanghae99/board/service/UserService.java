@@ -58,8 +58,11 @@ public class UserService {
 
     public void registerUser(SignupRequestDto requestDto) {
         String username = requestDto.getUsername();
-        String password = requestDto.getPassword();
+        String passwordInput = requestDto.getPassword();
+        // 패스워드 암호화
+        String password = passwordEncoder.encode(passwordInput);
         User user = new User(username, password);
+
         userRepository.save(user);
     }
 }

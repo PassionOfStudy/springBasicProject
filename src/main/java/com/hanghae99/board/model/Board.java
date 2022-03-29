@@ -1,9 +1,8 @@
-package com.hanghae99.board.domain;
+package com.hanghae99.board.model;
 
+import com.hanghae99.board.dto.BoardRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import javax.persistence.*;
 

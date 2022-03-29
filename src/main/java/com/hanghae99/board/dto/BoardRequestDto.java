@@ -1,4 +1,4 @@
-package com.hanghae99.board.domain;
+package com.hanghae99.board.dto;
 
 import lombok.Getter;
 

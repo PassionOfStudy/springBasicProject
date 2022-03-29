@@ -1,8 +1,8 @@
 package com.hanghae99.board.service;
 
-import com.hanghae99.board.domain.Board;
-import com.hanghae99.board.domain.BoardRepository;
-import com.hanghae99.board.domain.BoardRequestDto;
+import com.hanghae99.board.model.Board;
+import com.hanghae99.board.repository.BoardRepository;
+import com.hanghae99.board.dto.BoardRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -3,11 +3,14 @@ package com.hanghae99.board.model;
 import com.hanghae99.board.dto.BoardRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 
 @NoArgsConstructor // 기본생성자를 대신 생성해줍니다.
 @Getter
+@Setter
 @Entity // 테이블임을 나타냅니다.
 public class Board extends Timestamped{
     @Id // ID 값, Primary Key로 사용하겠다는 뜻입니다.
@@ -18,25 +21,29 @@ public class Board extends Timestamped{
     private String title;
 
     @Column(nullable = false)
-    private String author;
-
-    @Column(nullable = false)
     private String contents;
 
-    public Board(String title, String author, String contents) {
-        this.title = title;
-        this.author = author;
-        this.contents = contents;
-    }
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private User user;
+
+//    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
+//    List<Comment> comment = new ArrayList<>();
+
+//    public Board(String title, String contents) {
+//        this.title = title;
+//        this.contents = contents;
+//    }
 
     public Board(BoardRequestDto requestDto) {
         this.title = requestDto.getTitle();
-        this.author = requestDto.getAuthor();
         this.contents = requestDto.getContents();
+        this.user = requestDto.getUser();
     }
+
     public void update(BoardRequestDto requestDto) {
         this.title = requestDto.getTitle();
-        this.author = requestDto.getAuthor();
         this.contents = requestDto.getContents();
+        this.user = requestDto.getUser();
     }
 }

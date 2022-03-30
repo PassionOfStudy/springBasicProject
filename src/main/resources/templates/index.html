@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>게시판 목록 조회 페이지</title>
+    <!-- BootStrap 5 -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+            crossorigin="anonymous"
+    />
+    <!-- Bulma -->
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"
+    />
+    <!-- jQuery import  -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/css/style.css" />
+    <script src="/script.js"></script>
+</head>
+<body>
+<header>
+    <section class="hero is-info">
+        <div class="hero-body">
+            <p class="title">게시판 전체 목록 조회 및 등록 페이지</p>
+            <p class="subtitle">게시판 도전~~</p>
+            <h4 class="logo" >
+                <a href = "/" style="color: #ffffff;margin-left: 15px">Notice-Board</a>
+                <span th:if="${username} != 'null'" th:text="${username}+'님 환영합니다.'" style="color: #ffffff;margin-left: 20px"></span>
+                <a th:if="${username} == 'null'" id="login-text" href="/user/login" style="float: right;color: #ffffff;margin-right: 15px">
+                    로그인
+                </a>
+                <a th:if="${username} != 'null'" id="logout-text" href="/user/logout" style="float: right;color: #ffffff;margin-right: 15px">
+                    로그아웃
+                </a>
+            </h4>
+        </div>
+    </section>
+</header>
+<div class="btn__active">
+    <button onclick="openCloseInputBox()" type="button" class="btn btn-dark">
+        게시글 등록창 열기
+    </button>
+</div>
+
+<section>
+    <div class="input-box" id="input-box">
+        <div class="mb-3">
+
+            <label for="author" class="form-label"
+            >User</label
+            >
+            <input
+                    type="text"
+                    class="form-control"
+                    id="author"
+                    placeholder="작성자"
+            />
+        </div>
+        <div class="mb-3">
+            <label for="title" class="form-label">title</label>
+            <input
+                    type="text"
+                    class="form-control"
+                    id="title"
+                    placeholder="게시판 제목"
+            />
+        </div>
+        <div class="mb-3">
+            <label for="contents" class="form-label"
+            >게시판 내용을 작성해주세요..</label
+            >
+            <textarea class="form-control" id="contents" rows="3"></textarea>
+        </div>
+        <button onclick="writePost()" type="button" class="btn btn-primary">
+            게시판 등록
+        </button>
+    </div>
+</section>
+<table class="table table-striped text-center">
+    <thead class ="thead-dark">
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">제목</th>
+        <th scope="col">사용자</th>
+        <th scope="col">작성일자</th>
+    </tr>
+    </thead>
+    <tbody id="board-table-box">
+<!--    <div id="board-table-box" class="table table-striped text-center">-->
+        <tr>
+            <td></td>
+            <td><a href=""> title </a></td>
+            <td> username </td>
+            <td> Date</td>
+        </tr>
+<!--    </div>-->
+    </tbody>
+
+<!--    <tbody>-->
+<!--        <div th:each="board : ${board}" class="table table-striped text-center">-->
+<!--            <tr>-->
+<!--                <td></td>-->
+
+<!--                <th scope="col"><a th:href="@{/api/boards/}+${board.id}" th:text="${board.title}"> </a></th>-->
+<!--                <th scope="col" th:text="${board.user.username}"></th>-->
+<!--                <th scope="col" th:text="${#temporals.format(board.modifiedAt, 'yyyy-MM-dd HH:mm')}"></th>-->
+<!--            </tr>-->
+<!--        </div>-->
+<!--    </tbody>-->
+</table>
+<!--<center>-->
+<!--    <nav aria-label="Page navigation example">-->
+<!--        <ul class="pagination justify-content-center">-->
+<!--            <li class="page-item" th:classappend="${1 == board.pageable.pageNumber + 1} ? 'disabled'">-->
+<!--                <a class="page-link" href="#" th:href="@{/(page=${board.pageable.pageNumber-1})}" tabindex="-1" aria-disabled="true" >Previous</a>-->
+<!--            </li>-->
+<!--            <li class="page-item" th:classappend="${i == board.pageable.pageNumber + 1} ? 'disabled'" th:each="i : ${#numbers.sequence(startPage, endPage)}">-->
+<!--                <a class="page-link" href="#" th:href="@{/(page=${i-1})}" th:text="${i}"></a>-->
+<!--            </li>-->
+
+<!--            <li class="page-item" th:classappend="${board.totalPages == board.pageable.pageNumber + 1} ? 'disabled'">-->
+<!--                <a class="page-link" href="#"  th:href="@{/(page=${board.pageable.pageNumber-1})}">Next</a>-->
+<!--            </li>-->
+<!--        </ul>-->
+<!--    </nav>-->
+<!--</center>-->
+</div>
+</body>
+</html>

@@ -1,27 +1,46 @@
 package com.hanghae99.board.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hanghae99.board.dto.SignupRequestDto;
+import com.hanghae99.board.security.UserDetailsImpl;
+import com.hanghae99.board.service.KakaoUserService;
 import com.hanghae99.board.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class UserController {
 
     private final UserService userService;
+    private final KakaoUserService kakaoUserService;
 
-    public UserController(UserService userService) {
+    @Autowired
+    public UserController(UserService userService, KakaoUserService kakaoUserService) {
         this.userService = userService;
+        this.kakaoUserService = kakaoUserService;
     }
 
     // 회원 로그인 페이지
     @GetMapping("/user/login")
     public String login() {
+        return "login";
+    }
+
+    // 로그인 실패시 동작
+    @GetMapping("/user/login/error")
+    public String loginError(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails ) {
+        if(userDetails == null){
+            model.addAttribute("user","anonymous");
+        }else{
+
+            model.addAttribute("user",userDetails.getUser().getUsername());
+        }
+        model.addAttribute("loginError", true);
         return "login";
     }
 
@@ -56,6 +75,14 @@ public class UserController {
             return "회원가입을 축하합니다!";
         }
     }
+
+    @GetMapping("/user/kakao/callback")
+    public String kakaoLogin(@RequestParam String code) throws JsonProcessingException {
+        // authorizedCode: 카카오 서버로부터 받은 인가 코드
+        kakaoUserService.kakaoLogin(code);
+        return "redirect:/";
+    }
+
 
 
 }

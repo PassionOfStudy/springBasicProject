@@ -1,11 +1,13 @@
 package com.hanghae99.board.dto;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+@NoArgsConstructor
 @Setter
 @Getter
 //회원가입시도시 필요 조건들 validation
@@ -22,5 +24,7 @@ public class SignupRequestDto {
     @NotBlank(message = "비밀번호 확인을 입력해 주세요")
     @Size(min = 4, max = 10, message = "비밀번호 확인은 4자 이상 입력해주세요!")
     private String passwordCheck;
+
+    private Long kakaoId;
 
 }

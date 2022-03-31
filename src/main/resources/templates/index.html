@@ -31,10 +31,10 @@
             <h4 class="logo" >
                 <a href = "/" style="color: #ffffff;margin-left: 15px">Notice-Board</a>
                 <span th:if="${username} != 'null'" th:text="${username}+'님 환영합니다.'" style="color: #ffffff;margin-left: 20px"></span>
-                <a th:if="${username} == 'null'" id="login-text" href="/user/login" style="float: right;color: #ffffff;margin-right: 15px">
+                <a th:if="${username} == 'null' or ${username} == 'anonymous'" id="login-text" href="/user/login" style="float: right;color: #ffffff;margin-right: 15px">
                     로그인
                 </a>
-                <a th:if="${username} != 'null'" id="logout-text" href="/user/logout" style="float: right;color: #ffffff;margin-right: 15px">
+                <a th:if="${username} != 'null' and ${username} != 'anonymous'" id="logout-text" href="/user/logout" style="float: right;color: #ffffff;margin-right: 15px">
                     로그아웃
                 </a>
             </h4>
@@ -130,5 +130,43 @@
 <!--    </nav>-->
 <!--</center>-->
 </div>
+<script  th:inline="javascript">
+    // 메모를 생성합니다.
+    function writePost() {
+        let anonymous = [[ ${username} ]];
+        // 익명의사용자일 경우 로그인 페이지로 이동
+        if(anonymous === "anonymous") {
+            alert('로그인이 필요한 기능입니다!');
+            window.location.assign('/user/login');
+        }
+
+        // 1. 작성한 메모를 불러옵니다.
+        let title = $("#title").val();
+        let contents = $("#contents").val();
+
+        // 2. 작성한 메모가 올바른지 isValidContents 함수를 통해 확인합니다.
+        if (isValidContents(title) == false) {
+            return;
+        } else if (isValidContents(contents) == false) {
+            return;
+        }
+        // 3. 전달할 data JSON으로 만듭니다.
+        let data = { title: title, contents: contents };
+
+        // 5. POST /api/memos 에 data를 전달합니다.
+        $.ajax({
+            type: "POST",
+            url: "/api/boards",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            success: function (response) {
+                console.log(response);
+                alert("메시지가 성공적으로 작성되었습니다.");
+                window.location.reload();
+            },
+        });
+    }
+
+</script>
 </body>
 </html>

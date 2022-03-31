@@ -13,8 +13,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 import java.util.List;
 
 //@RequiredArgsConstructor
@@ -60,24 +58,27 @@ public class BoardController {
     // 게시글 작성
     @PostMapping("/api/boards")
     public String createNotice(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody BoardRequestDto requestDto){
-        requestDto.setUser(userDetails.getUser());
-        Board board = new Board(requestDto);
-        boardRepository.save(board);
-        return "redirect:/";
+        if(userDetails == null) {
+            return "redirect:/login";
+        } else {
+            requestDto.setUser(userDetails.getUser());
+            Board board = new Board(requestDto);
+            boardRepository.save(board);
+            return "redirect:/";
+        }
     }
 
     //게시글 한개 조회페이지
     @GetMapping("/api/boards/{id}")
     public String getOneBoard(@PathVariable Long id, Model model, @AuthenticationPrincipal UserDetailsImpl userDetails){
-        System.out.println(id);
-        System.out.println(userDetails.getUser().getUsername());
+
         Board board = boardRepository.findById(id).orElseThrow(
                 ()-> new IllegalArgumentException("게시글이 존재하지 않습니다.")
         );
 
         List<Comment> comment = commentRepository.findByBoardIdOrderByModifiedAtDesc(id);
         if(userDetails == null){
-            model.addAttribute("user","null");
+            model.addAttribute("user","anonymous");
         }else{
 
             model.addAttribute("user",userDetails.getUser().getUsername());

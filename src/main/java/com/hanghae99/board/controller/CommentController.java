@@ -9,6 +9,7 @@ import com.hanghae99.board.security.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -26,10 +27,13 @@ public class CommentController {
         Board board = boardRepository.findById(id).orElseThrow(
                 ()-> new IllegalArgumentException("게시글이 존재하지 않습니다.")
         );
+        if(userDetails == null) {
+            return "redirect:/user/login";
+        }
         comment.setUser(userDetails.getUser());
         comment.setBoard(board);
         commentRepository.save(comment);
-        return "redirect:/api/boards/{id}";
+    return "redirect:/api/boards/{id}";
     }
 
     @PutMapping("/api/boards/{id}/comment/{commentId}")

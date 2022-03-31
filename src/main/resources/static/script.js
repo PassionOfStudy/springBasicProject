@@ -31,34 +31,7 @@ function isValidContents(contents) {
     return true;
 }
 
-// 메모를 생성합니다.
-function writePost() {
-    // 1. 작성한 메모를 불러옵니다.
-    let title = $("#title").val();
-    let contents = $("#contents").val();
 
-    // 2. 작성한 메모가 올바른지 isValidContents 함수를 통해 확인합니다.
-    if (isValidContents(title) == false) {
-        return;
-    } else if (isValidContents(contents) == false) {
-        return;
-    }
-    // 3. 전달할 data JSON으로 만듭니다.
-    let data = { title: title, contents: contents };
-
-    // 5. POST /api/memos 에 data를 전달합니다.
-    $.ajax({
-        type: "POST",
-        url: "/api/boards",
-        contentType: "application/json",
-        data: JSON.stringify(data),
-        success: function (response) {
-            console.log(response);
-            alert("메시지가 성공적으로 작성되었습니다.");
-            window.location.reload();
-        },
-    });
-}
 // 메모를 불러와서 보여줍니다.
 function getMessages() {
     // 1. 기존 메모 내용을 지웁니다.
@@ -82,6 +55,7 @@ function getMessages() {
     })
 }
 
+
 // 메모 하나를 HTML로 만들어서 body 태그 내 원하는 곳에 붙입니다.
 function addHTML(title, contents, username, boardId, modifiedAt) {
     // 1. HTML 태그를 만듭니다.
@@ -94,6 +68,7 @@ function addHTML(title, contents, username, boardId, modifiedAt) {
     // 2. #tableBoard 에 HTML을 붙인다.
     $('#board-table-box').append(tempHtml);
 }
+
 
 // 상세페이지로 이동하기
 function moveDetail(id) {

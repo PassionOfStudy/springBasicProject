@@ -24,7 +24,6 @@ public class UserService {
 
     // 회원가입 중복체크
     public int nameCheck(SignupRequestDto requestDto) {
-
         Optional<User> found = userRepository.findByUsername(requestDto.getUsername());
         if(found.isPresent()) {
             return 1;
